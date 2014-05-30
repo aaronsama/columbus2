@@ -1,0 +1,13 @@
+// Add markers for start and end points
+start = new OpenLayers.LonLat(<%= data.first.lon %>, <%= data.first.lat %>).
+            transform( fromProjection, toProjection);
+end = new OpenLayers.LonLat(<%= data.last.lon %>, <%= data.last.lat %>).
+          transform( fromProjection, toProjection);
+
+var markers = new OpenLayers.Layer.Markers( "Markers" );
+
+markers.addMarker(new OpenLayers.Marker(start));
+markers.addMarker(new OpenLayers.Marker(end));
+
+map.addLayer(markers);
+

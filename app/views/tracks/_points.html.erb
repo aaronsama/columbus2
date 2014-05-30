@@ -1,0 +1,14 @@
+ // Add a point for each element of the track
+ var a = new Array()
+ <% data.range.each do |i| %>
+
+   l = new OpenLayers.LonLat(<%= data[i].lon %>, <%= data[i].lat %>).
+           transform( fromProjection, toProjection);
+   point = new OpenLayers.Geometry.Point(l.lon, l.lat);
+   a.push(new OpenLayers.Feature.Vector(point));
+ <% end %>
+
+ points = new OpenLayers.Layer.Vector("The points");
+ points.addFeatures(a);
+ map.addLayer(points);
+
