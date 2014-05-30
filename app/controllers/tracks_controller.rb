@@ -83,4 +83,14 @@ class TracksController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def reverse_geocode
+    @track = Track.find(params[:id])
+    @track.reverse_geocode
+
+    respond_to do |format|
+      format.html { redirect_to tracks_url }
+      format.json { head :no_content }
+    end
+  end
 end

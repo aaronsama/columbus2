@@ -1,6 +1,6 @@
 Columbus2::Application.routes.draw do
   resources :tracks
-
+  match 'reverse_geocode/:id' => 'tracks#reverse_geocode', :as => :reverse_geocode
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

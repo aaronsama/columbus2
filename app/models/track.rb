@@ -8,16 +8,13 @@ class Track < ActiveRecord::Base
   do_not_validate_attachment_file_type :track
   validates_attachment :track, :presence => true
 
-  after_save :analyze
+  after_save :reverse_geocode
 
-  def analyze
+  def reverse_geocode
     data = V900Track.new(self.track.path)
 
-    start = V900Waypoint.new(data.first)
-    destination = V900Waypoint.new(data.last)
-    
-    update_column(:start_location, Geocoder.address(start.lat_lon))
-    update_column(:end_location, Geocoder.address(destination.lat_lon))
+    update_column(:start_location, Geocoder.address(data.first.lat_lon))
+    update_column(:end_location, Geocoder.address(data.last.lat_lon))
   end
 
   # import all the files in a specific directory.
