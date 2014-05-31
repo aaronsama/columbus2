@@ -40,8 +40,30 @@ class V900Track
     last.time - first.time
   end
 
+  def min_speed
+    get :<, :speed
+  end
+
   def max_speed
-    range.each { |i| self[i].speed }.max
+    get :>, :speed
+  end
+
+  def min_height
+    get :<, :height
+  end
+
+  def max_height
+    get :>, :height
+  end
+
+  private
+
+  def get comparison, method
+    current = self[0].send(method) # initialize max or min to the first value in the file
+    range.each do |i|
+      current = self[i].send(method) if self[i].send(method).send(comparison, current)
+    end
+    current
   end
 
 end
