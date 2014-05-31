@@ -58,5 +58,8 @@ module Columbus2
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+
+    # split assets into assets in the head and assets in the body
+    config.assets.precompile << 'application_body.js'
   end
 end

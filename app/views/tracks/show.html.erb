@@ -1,71 +1,98 @@
-<p id="notice"><%= notice %></p>
+<div class="row">
+  <p id="notice"><%= notice %></p>
+</div>
+<div class="row">
+  <div class="large-2 columns">
+    <p>
+      <b>Title:</b>
+      <%= @track.title %>
+    </p>
 
-<p>
-  <b>Title:</b>
-  <%= @track.title %>
-</p>
+    <p>
+      <b>Description:</b>
+      <%= @track.description %>
+    </p>
 
-<p>
-  <b>Basename:</b>
-  <%= link_to basename(@track.track.path), @track.track.url %>
-</p>
+    <p>
+      <b>Start location:</b>
+      <%= @track.start_location %>
+    </p>
 
-<p>
-  <b>Description:</b>
-  <%= @track.description %>
-</p>
+    <p>
+      <b>End location:</b>
+      <%= @track.end_location %>
+    </p>
 
-<p>
-  <b>Start location:</b>
-  <%= @track.start_location %>
-</p>
+    <p>
+      <b>Start date:</b>
+      <%= @data.first.time %>
+    </p>
 
-<p>
-  <b>End location:</b>
-  <%= @track.end_location %>
-</p>
+    <p>
+      <b>End date:</b>
+      <%= @data.last.time %>
+    </p>
 
-<p>
-  <b>Start date:</b>
-  <%= @data.first.time %>
-</p>
+    <p>
+      <b>Duration:</b>
+      <%= (@data.duration / 60).truncate %> minutes and  <%= @data.duration % 60 %> seconds
+    </p>
 
-<p>
-  <b>End date:</b>
-  <%= @data.last.time %>
-</p>
+    <p>
+      <b>Min Speed:</b>
+      <%= @data.min_speed %>
+    </p>
 
+    <p>
+      <b>Max Speed:</b>
+      <%= @data.max_speed %>
+    </p>
 
-<%= link_to 'Edit', edit_track_path(@track) %> |
-<%= link_to 'Back', tracks_path %>
+    <p>
+      <b>Min Height:</b>
+      <%= @data.min_height %>
+    </p>
 
+    <p>
+      <b>Max Height:</b>
+      <%= @data.max_height %>
+    </p>
 
-<div style="height:800px" id="map"></div>
-<script>
- /* this is the map */
- map = new OpenLayers.Map("map");
- var mapnik = new OpenLayers.Layer.OSM();
- map.addLayer(mapnik);
+    <p>
+      <b>Basename:</b>
+      <%= link_to basename(@track.track.path), @track.track.url %>
+    </p>
 
+    <%= link_to 'Edit', edit_track_path(@track) %> |
+    <%= link_to 'Back', tracks_path %>
+  </div>
+  <div class="large-10 columns">
+    <div style="height:800px" id="map"></div>
+    <script>
+     /* this is the map */
+     map = new OpenLayers.Map("map");
+     var mapnik = new OpenLayers.Layer.OSM();
+     map.addLayer(mapnik);
 
- /* add controls to the map */
- // map.addControl(new OpenLayers.Control.PanZoomBar());
- //map.addControl(new OpenLayers.Control.LayerSwitcher({'ascending':false}));
- //map.addControl(new OpenLayers.Control.MousePosition());
- //map.addControl(new OpenLayers.Control.KeyboardDefaults());
- // map.addControl(new OpenLayers.Control.Permalink('permalink'));
- // map.addControl(new OpenLayers.Control.OverviewMap());
+     /* add controls to the map */
+     // map.addControl(new OpenLayers.Control.PanZoomBar());
+     //map.addControl(new OpenLayers.Control.LayerSwitcher({'ascending':false}));
+     //map.addControl(new OpenLayers.Control.MousePosition());
+     //map.addControl(new OpenLayers.Control.KeyboardDefaults());
+     // map.addControl(new OpenLayers.Control.Permalink('permalink'));
+     // map.addControl(new OpenLayers.Control.OverviewMap());
 
- // Transform from WGS 1984 to Spherical Mercator Projection
- var fromProjection = new OpenLayers.Projection("EPSG:4326"); 
- var toProjection   = new OpenLayers.Projection("EPSG:900913");
+     // Transform from WGS 1984 to Spherical Mercator Projection
+     var fromProjection = new OpenLayers.Projection("EPSG:4326"); 
+     var toProjection   = new OpenLayers.Projection("EPSG:900913");
 
- <%= render :partial => "tracks/line.html", :locals => {:data => @data} %>
- <%= render :partial => "tracks/points.html.erb", :locals => {:data => @data} %>
- <%= render :partial => "tracks/boundaries.html", :locals => {:data => @data} %>
+     <%= render :partial => "tracks/line.html", :locals => {:data => @data} %>
+     <%= render :partial => "tracks/points.html.erb", :locals => {:data => @data} %>
+     <%= render :partial => "tracks/boundaries.html", :locals => {:data => @data} %>
 
- // this has to remain the last instruction in the code, apparently
- map.setCenter(start, 8);
-</script>
-
+     // this has to remain the last instruction in the code, apparently
+     map.setCenter(start, 8);
+    </script>
+  </div>
+</div>
 

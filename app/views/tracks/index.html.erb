@@ -1,33 +1,36 @@
-<h1>Listing tracks</h1>
+<div class="large-12 columns">
+  <h1>Listing tracks</h1>
 
-<table class="datatable">
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Description</th>
-      <th>Start location</th>
-      <th>End location</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-  <% @tracks.each do |track| %>
-    <tr>
-      <td><%= track.title %></td>
-      <td><%= track.description %></td>
-      <td><%= track.start_location %></td>
-      <td><%= track.end_location %></td>
-      <td>
-        <%= link_to 'Show', track %>
-        <%= link_to 'Edit', edit_track_path(track) %>
-        <%= link_to 'Reverse Geocode', reverse_geocode_url(track) %>
-        <%= link_to 'Destroy', track, method: :delete, data: { confirm: 'Are you sure?' } %>
-      </td>
-    </tr>
-  <% end %>
-  </tbody>
-</table>
+  <table class="datatable">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Start location</th>
+        <th>End location</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @tracks.each do |track| %>
+        <tr>
+          <td><%= track.title %></td>
+          <td><%= track.description %></td>
+          <td><%= track.start_location %></td>
+          <td><%= track.end_location %></td>
+          <td>
+            <%= link_to 'Show', track %>
+            <%= link_to 'Edit', edit_track_path(track) %>
+            <%= link_to 'Reverse Geocode', reverse_geocode_url(track) %>
+            <%= link_to 'Destroy', track, method: :delete, data: { confirm: 'Are you sure?' } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 
-<br />
+  <br />
 
-<%= link_to 'New Track', new_track_path %>
+  <%= link_to 'New Track', new_track_path %>
+</div>
+
