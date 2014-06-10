@@ -12,7 +12,7 @@ class Track < ActiveRecord::Base
 
   def reverse_geocode
     data = V900Track.new(self.track.path)
-
+      
     update_column(:start_location, Geocoder.address(data.first.lat_lon))
     update_column(:end_location, Geocoder.address(data.last.lat_lon))
   end
