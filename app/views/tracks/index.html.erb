@@ -20,10 +20,12 @@
           <td><%= track.start_location %></td>
           <td><%= track.end_location %></td>
           <td>
-            <%= link_to 'Show', track %>
-            <%= link_to 'Edit', edit_track_path(track) %>
-            <%= link_to 'Reverse Geocode', reverse_geocode_url(track) %>
-            <%= link_to 'Destroy', track, method: :delete, data: { confirm: 'Are you sure?' } %>
+
+            <%= link_to zurb_icon('Show'), track %>
+            <%= link_to zurb_icon('Edit'), edit_track_path(track) %>
+            <%= link_to zurb_icon('fi-compass', 'Reverse Geocode'), reverse_geocode_url(track) %>
+            <%= link_to zurb_icon('Destroy'), track, method: :delete, data: { confirm: 'Are you sure?' } %>
+
           </td>
         </tr>
       <% end %>

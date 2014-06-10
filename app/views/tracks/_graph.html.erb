@@ -1,0 +1,45 @@
+<div id="chartdiv" style="height:<%= @size %>;width:100%;padding:20px"></div>
+<script>
+    $(document).ready(function() {
+        plot1 = $.jqplot('chartdiv',  
+                         [ <%= @data_series %> ],
+                         {
+                             title: '<%= @account.full_name %>',
+                             grid: { 
+                                 borderWidth: 1.0, 
+                                 gridLineColor: '#EEEEEE', 
+                                 background: '#FFF', 
+                                 shadow: false 
+                             },
+                             seriesDefaults: {
+                                 shadow: false,
+                                 renderer:$.jqplot.BarRenderer,
+                                 pointLabels: { 
+                                     show: true, 
+                                     location: 'e',
+                                     edgeTolerance: -15 
+                                 },
+                                 rendererOptions: {
+                                     barDirection: 'horizontal'
+                                 }
+                             },
+                             axesDefaults: {
+                                 tickOptions: {
+                                     fontFamily: 'Open Sans',
+                                     fontSize: '10pt',
+                                     angle: -90
+                                 }
+                             },
+                             seriesColors:['#008080', '#FF0000', '#004080'],
+                             axes: {
+                                 yaxis: {
+                                     renderer: $.jqplot.CategoryAxisRenderer
+                                 }
+                             }
+                         });
+
+        $(window).resize(function() {
+            plot1.replot( { resetAxes: true } );
+        })
+    })
+</script>
