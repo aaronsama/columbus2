@@ -56,6 +56,22 @@ class V900Track
     get :>, :height
   end
 
+  def bearing
+    Geocoder::Calculations.compass_point(Geocoder::Calculations.bearing_between(first.lat_lon, last.lat_lon))
+  end
+
+  def distance_aerial
+    Geocoder::Calculations.distance_between(first.lat_lon, last.lat_lon, :units => :km)
+  end
+
+  def distance
+    distance = 0
+    (1..self.size - 1).each do |i|
+      distance += Geocoder::Calculations.distance_between(self[i].lat_lon, self[i-1].lat_lon, :units => :km)
+    end
+    distance
+  end
+
   private
 
   def get comparison, method
