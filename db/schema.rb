@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140523161040) do
+ActiveRecord::Schema.define(:version => 20140613204317) do
 
   create_table "tracks", :force => true do |t|
     t.string   "title"
@@ -24,6 +24,13 @@ ActiveRecord::Schema.define(:version => 20140523161040) do
     t.string   "track_content_type"
     t.integer  "track_file_size"
     t.datetime "track_updated_at"
+    t.datetime "start_date"
+    t.integer  "duration"
+    t.float    "distance"
+    t.integer  "min_speed"
+    t.integer  "max_speed"
+    t.integer  "min_height"
+    t.integer  "max_height"
   end
 
 end

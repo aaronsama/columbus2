@@ -35,7 +35,7 @@
 
     <p>
       <b>Duration:</b>
-      <%= (@data.duration / 60).truncate %> minutes and  <%= @data.duration % 60 %> seconds
+      <%= format_duration @data.duration %>
     </p>
 
     <p>

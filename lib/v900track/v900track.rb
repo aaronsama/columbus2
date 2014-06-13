@@ -36,6 +36,10 @@ class V900Track
 
   # statistics
 
+  def start_date
+    first.time
+  end
+
   def duration
     last.time - first.time
   end

@@ -15,7 +15,17 @@ class Track < ActiveRecord::Base
       
     update_column(:start_location, Geocoder.address(data.first.lat_lon))
     update_column(:end_location, Geocoder.address(data.last.lat_lon))
+
+    cache_statistics data
   end
+
+  # store all statistics about a track
+  def cache_statistics data
+    [:start_date, :duration, :distance, :min_speed, :max_speed, :min_height, :max_height].each do |symbol|
+      update_column(symbol, data.send(symbol))
+    end
+  end
+
 
   # import all the files in a specific directory.
   # useful from the command line

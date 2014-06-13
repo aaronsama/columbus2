@@ -5,20 +5,30 @@
   <table class="datatable">
     <thead>
       <tr>
-        <th>Title</th>
-        <th>Description</th>
+        <th>Start Date</th>
+        <th>Duration</th>
         <th>Start location</th>
         <th>End location</th>
+        <th>Distance (kms)</th>
+        <th>Min Speed (km/h)</th>
+        <th>Max Speed (km/h)</th>
+        <th>Min Height (m)</th>
+        <th>Max Height (m)</th>
         <th>Actions</th>
       </tr>
     </thead>
     <tbody>
       <% @tracks.each do |track| %>
         <tr>
-          <td><%= track.title %></td>
-          <td><%= track.description %></td>
+          <td><%= track.start_date %></td>
+          <td><%= format_duration track.duration %></td>
           <td><%= track.start_location %></td>
           <td><%= track.end_location %></td>
+          <td><%= track.distance %></td>
+          <td><%= track.min_speed %></td>
+          <td><%= track.max_speed %></td>
+          <td><%= track.min_height %></td>
+          <td><%= track.max_height %></td>
           <td>
 
             <%= link_to zurb_icon('Show'), track %>
