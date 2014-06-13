@@ -20,11 +20,12 @@ class Track < ActiveRecord::Base
   # import all the files in a specific directory.
   # useful from the command line
   def self.import dir_or_files
-    files = File.directory?(dir_or_files) ? Dir.foreach(dir_or_files) : Dir.glob(dir_or_files)
+    # return an array of absolute pathames (this is why we run map on the dir command
+    files = File.directory?(dir_or_files) ? Dir.foreach(dir_or_files).map { |filename| File.join(dir_or_files, filename) } : Dir.glob(dir_or_files)
 
     files.each do |filename|
       if File.extname(filename).downcase == ".csv" then
-        Track.create(:track => File.open(File.join(dirname, filename), 'rb'))
+        Track.create(:track => File.open(filename, 'rb'))
       end
     end
   end
