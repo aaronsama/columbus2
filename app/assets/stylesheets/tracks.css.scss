@@ -1,3 +1,26 @@
 // Place all the styles related to the tracks controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.notice {
+
+}
+
+.info {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 300px;
+    font-size: smaller;
+    padding: 5px;
+    z-index: 20000;
+    background-color: white;
+}
+
+#map {
+    position: absolute;
+    top:0px;
+    left: 300px;
+    right: 0px;
+    bottom: 0px;
+}    
