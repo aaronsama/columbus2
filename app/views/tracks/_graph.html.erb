@@ -1,3 +1,4 @@
+<div id="tooltip" style="position: absolute; display: none; border: 1px solid rgb(255, 221, 221); padding: 2px; background-color: rgb(255, 238, 238); opacity: 0.8;"></div>
 <script>
  $(document).ready(function() {
    var options = {
@@ -6,12 +7,41 @@
        points: { show: false },
        xaxes:  [ { mode: "time", timeformat: "%H:%M:%S"} ],
        yaxes:  [ { }, { position: "right" } ]
-     }
+     },
+     grid: { hoverable: true, clickable: true },
    };
 
    var plot = $.plot('#chartdiv',
                      [{ label: "Speed",  data: <%= @speed_profile %> },
                       { label: "Height", data: <%= @altitude_profile %>, yaxis: 2}],
                      options)
+
+
+   $("<div id='tooltip'></div>").css({
+	 position: "absolute",
+	 display: "none",
+	 border: "1px solid #fdd",
+	 padding: "2px",
+	 "background-color": "#fee",
+	 opacity: 0.80
+   }).appendTo("body");
+
+   $("#chartdiv").bind("plothover", function (event, pos, item) {
+	 if (item) {
+	   var x = item.datapoint[0].toFixed(2), y = item.datapoint[1].toFixed(2);
+       var d = new Date(parseInt(x))
+       var curr_hour = d.getHours();
+       var curr_min = d.getMinutes();
+       var curr_sec = d.getSeconds();
+       var time = " " + curr_hour + ":" + curr_min + ":" + curr_sec;
+
+	   $("#tooltip").html(item.series.label + " at " + time + " = " + y)
+						             .css({top: item.pageY+5, left: item.pageX+5})
+						                                                .fadeIn(200);
+	 } else {
+	   $("#tooltip").hide();
+	 }
+   });
+
  });
 </script>
