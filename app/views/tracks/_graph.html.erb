@@ -5,10 +5,11 @@
      series: {
        lines:  { show: true },
        points: { show: false },
-       xaxes:  [ { mode: "time", timeformat: "%H:%M:%S"} ],
-       yaxes:  [ { }, { position: "right" } ]
      },
+     xaxis: { mode: "time", timeformat: "%H:%M:%S"},
+     yaxes:  [ { }, { position: "right" } ],
      grid: { hoverable: true, clickable: true },
+     selection: { mode: "x" }
    };
 
    var plot = $.plot('#chartdiv',
