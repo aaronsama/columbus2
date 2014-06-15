@@ -79,6 +79,7 @@
   </div>
 </div>
 <div id="map"></div>
+<div id="chartdiv"></div>
 
 <script>
  /* this is the map */
@@ -107,4 +108,4 @@
  // this has to remain the last instruction in the code, apparently
  map.setCenter(start, 8);
 </script>
-
+<%= render :partial => "graph" %>

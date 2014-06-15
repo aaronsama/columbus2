@@ -17,9 +17,17 @@
     background-color: white;
 }
 
+#chartdiv {
+    position: absolute;
+    top: 0px;
+    left: 300px;
+    right:0px;
+    height: 200px;
+}
+
 #map {
     position: absolute;
-    top:0px;
+    top:200px;
     left: 300px;
     right: 0px;
     bottom: 0px;
