@@ -18,6 +18,14 @@ class V900Track
     (0..self.size - 1)
   end
 
+  # iterator over the CSV
+  # it decorates the output returning a Waypoint
+  # todo: inefficient!?
+  def each
+    array = @data.each.map { |item| V900Waypoint.new(item) }
+    array.each
+  end
+
   def get i
     self[i]
   end
