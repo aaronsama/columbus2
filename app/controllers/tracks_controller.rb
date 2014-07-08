@@ -16,10 +16,6 @@ class TracksController < ApplicationController
   # GET /tracks/1.json
   def show
     @track = Track.find(params[:id])
-    # @data = V900Track.new(@track.track.path)
-
-    # @speed_profile = ("[" + @data.each.map { |w| "[#{w.time.to_i * 1000}, #{w.speed}]" }.join(", ") + "]").html_safe
-    # @altitude_profile = ("[" + @data.each.map { |w| "[#{w.time.to_i * 1000}, #{w.height}]" }.join(", ") + "]").html_safe
 
     respond_to do |format|
       format.html

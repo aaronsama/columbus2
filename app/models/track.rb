@@ -11,10 +11,10 @@ class Track < ActiveRecord::Base
   after_save :reverse_geocode
 
   def reverse_geocode
-    data = V900Track.new(self.track.path)
+    data = CSV::read self.track.path, headers: true
 
-    update_column(:start_location, Geocoder.address(data.first.lat_lon))
-    update_column(:end_location, Geocoder.address(data.last.lat_lon))
+    update_column(:start_location, Geocoder.address(parse_lat(data.first["LATITUDE N/S"]),parse_lon(data.first["LONGITUDE E/W"])))
+    update_column(:end_location, Geocoder.address(parse_lat(data.last["LATITUDE N/S"]),parse_lon(data.last["LONGITUDE E/W"])))
 
     cache_statistics data
   end
@@ -30,8 +30,8 @@ class Track < ActiveRecord::Base
     data = CSV::read self.track.path, headers: true
     data.map do |p|
       ts = "20#{p['DATE'].scan(/../).join('-')}T#{p['TIME'].scan(/../).join(':')}"
-      lat = p["LATITUDE N/S"].last == 'N' ? p["LATITUDE N/S"].to_f : -p["LATITUDE N/S"].to_f
-      lon = p["LONGITUDE E/W"].last == 'E' ? p["LONGITUDE E/W"].to_f : -p["LONGITUDE E/W"].to_f
+      lat = parse_lat p["LATITUDE N/S"]
+      lon = parse_lon p["LONGITUDE E/W"]
       speed = p["SPEED"].to_i
       alt = p["HEIGHT"].to_i
       { timestamp: ts, lat: lat, lon: lon, speed: speed, alt: alt }
@@ -50,6 +50,16 @@ class Track < ActiveRecord::Base
         Track.create(:track => File.open(filename, 'rb'))
       end
     end
+  end
+
+  private
+
+  def parse_lat str
+    str.last == 'N' ? str.to_f : -str.to_f
+  end
+
+  def parse_lon str
+    str.last == 'E' ? str.to_f : -str.to_f
   end
 
 end
