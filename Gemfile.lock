@@ -73,8 +73,6 @@ GEM
       treetop (~> 1.4.8)
     mime-types (1.25.1)
     multi_json (1.10.1)
-    openlayers-rails (0.0.4)
-      railties (>= 3.1)
     paperclip (4.1.1)
       activemodel (>= 3.0.0)
       activesupport (>= 3.0.0)
@@ -141,7 +139,6 @@ DEPENDENCIES
   jquery-datatables-rails!
   jquery-rails
   leaflet-rails
-  openlayers-rails
   paperclip
   rails (= 3.2.17)
   sass-rails (~> 3.2.3)
