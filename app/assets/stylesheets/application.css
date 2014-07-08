@@ -11,6 +11,7 @@
  *= require_self
  *= require dataTables/jquery.dataTables.foundation
  *= require foundation_and_overrides
+ *= require leaflet
 
  *= require_tree .
  */

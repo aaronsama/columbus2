@@ -18,3 +18,11 @@
 //= require jquery.flot.resize
 //= require jquery.flot.time
 //= require jquery.flot.selection
+//= require leaflet
+//= require jquery_ujs
+//= require foundation
+//= require dataTables/jquery.dataTables
+//= require dataTables/jquery.dataTables.foundation
+//= require_tree .
+
+$(function(){ $(document).foundation(); });

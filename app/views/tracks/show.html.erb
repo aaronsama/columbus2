@@ -24,49 +24,49 @@
     </p>
 
     <p>
-      <b>Start date:</b>
-      <%= @data.first.time %>
+      <b>Date:</b>
+      <%= @track.start_date %>
     </p>
 
-    <p>
+    <!-- <p>
       <b>End date:</b>
-      <%= @data.last.time %>
-    </p>
+      <%#= @track.end_date %>
+    </p> -->
 
     <p>
       <b>Duration:</b>
-      <%= format_duration @data.duration %>
+      <%= format_duration @track.duration %>
     </p>
 
     <p>
       <b>Distance:</b>
-      <%= @data.distance %> kms <br />
-      (straight: <%= @data.distance_aerial %> kms)
+      <%= @track.distance %> km <br />
+<!--       (straight: <%#= @data.distance_aerial %> kms) -->
     </p>
 
-    <p>
+<!--     <p>
       <b>Bearing:</b>
-      <%= @data.bearing %>
-    </p>
+      <%#= @data.bearing %>
+    </p> -->
 
     <p>
       <b>Min Speed:</b>
-      <%= @data.min_speed %>
+      <%= @track.min_speed %> km/h
     </p>
 
     <p>
       <b>Max Speed:</b>
-      <%= @data.max_speed %>
+      <%= @track.max_speed %> km/h
     </p>
 
     <p>
       <b>Min Height:</b>
-      <%= @data.min_height %>
+      <%= @track.min_height %> m
     </p>
 
     <p>
       <b>Max Height:</b>
-      <%= @data.max_height %>
+      <%= @track.max_height %> m
     </p>
 
     <p>
@@ -81,31 +81,23 @@
 <div id="map"></div>
 <div id="chartdiv"></div>
 
-<script>
- /* this is the map */
- map = new OpenLayers.Map("map", {
-   controls: [
-     /* add controls to the map */
-     new OpenLayers.Control.PanZoomBar(),
-     new OpenLayers.Control.LayerSwitcher({'ascending':false}),
-     new OpenLayers.Control.TouchNavigation(),
-     new OpenLayers.Control.KeyboardDefaults(),
-     // new OpenLayers.Control.Permalink('permalink'),
-     // new OpenLayers.Control.OverviewMap(),
-   ]});
- var mapnik = new OpenLayers.Layer.OSM();
- map.addLayer(mapnik);
+<%#= render "graph" %>
 
-
- // Transform from WGS 1984 to Spherical Mercator Projection
- var fromProjection = new OpenLayers.Projection("EPSG:4326"); 
- var toProjection   = new OpenLayers.Projection("EPSG:900913");
-
- <%= render :partial => "tracks/line.html", :locals => {:data => @data} %>
- <%= render :partial => "tracks/points.html.erb", :locals => {:data => @data} %>
- <%= render :partial => "tracks/boundaries.html", :locals => {:data => @data} %>
-
- // this has to remain the last instruction in the code, apparently
- map.setCenter(start, 8);
-</script>
-<%= render :partial => "graph" %>
+<% content_for :scripts do %>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      var map = L.map('map', {
+        center: [51.505, -0.09],
+        zoom: 13
+      });
+      L.tileLayer('<%= Leaflet.tile_layer %>', {
+        attribution: '<%= Leaflet.attribution.html_safe %>',
+        maxZoom: <%= Leaflet.max_zoom %>
+      }).addTo(map);
+      var track = new Track('<%= track_path(@track, format: :json) %>',map);
+      track.addListener('track-loaded',function(){
+        track.plot('chartdiv')
+      });
+    });
+  </script>
+<% end %>
