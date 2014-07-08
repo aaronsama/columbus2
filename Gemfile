@@ -43,7 +43,7 @@ gem 'foundation-icons-sass-rails'
 gem 'flot-rails'
 gem 'jquery-datatables-rails', git: 'git://github.com/rweng/jquery-datatables-rails.git'
 
-gem 'openlayers-rails' # I want to deprecate this
+# fancy maps
 gem 'leaflet-rails'
 
 # fancy spinner

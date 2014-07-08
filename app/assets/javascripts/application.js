@@ -11,7 +11,6 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //
-//= require openlayers-rails
 //= require jquery
 //
 //= require jquery.flot
