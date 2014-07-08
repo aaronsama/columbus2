@@ -40,7 +40,7 @@
 
     <p>
       <b>Distance:</b>
-      <%= @track.distance %> km <br />
+      <%= number_with_precision(@track.distance, precision: 2) %> km <br />
 <!--       (straight: <%#= @data.distance_aerial %> kms) -->
     </p>
 
@@ -87,14 +87,18 @@
   <script type="text/javascript">
     $(document).ready(function() {
       // init the map
+      var osmLayer      = L.tileLayer('<%= LEAFLET[:osm][:url] %>', {id: 'leaflet-osm', attribution: '<%= LEAFLET[:osm][:attribution] %>'}),
+          cycleMapLayer = L.tileLayer('<%= LEAFLET[:cyclemap][:url] %>', {id: 'leaflet-cyclemap', attribution: '<%= LEAFLET[:cyclemap][:attribution] %>'});
+
       var map = L.map('map', {
         center: [46, 11],
-        zoom: 13
+        zoom: 13,
+        layers: [osmLayer,cycleMapLayer]
       });
-      L.tileLayer('<%= Leaflet.tile_layer %>', {
-        attribution: '<%= Leaflet.attribution.html_safe %>',
-        maxZoom: <%= Leaflet.max_zoom %>
-      }).addTo(map);
+
+      var layersCtl = { OSM: osmLayer, CycleMap: cycleMapLayer }
+
+      L.control.layers(layersCtl).addTo(map);
 
       $('#map, #chartdiv').spin({
         shadow: true,
