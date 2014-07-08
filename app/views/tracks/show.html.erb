@@ -86,17 +86,26 @@
 <% content_for :scripts do %>
   <script type="text/javascript">
     $(document).ready(function() {
+      // init the map
       var map = L.map('map', {
-        center: [51.505, -0.09],
+        center: [46, 11],
         zoom: 13
       });
       L.tileLayer('<%= Leaflet.tile_layer %>', {
         attribution: '<%= Leaflet.attribution.html_safe %>',
         maxZoom: <%= Leaflet.max_zoom %>
       }).addTo(map);
+
+      $('#map, #chartdiv').spin({
+        shadow: true,
+        hwaccel: true
+      });
+      // load the track
       var track = new Track('<%= track_path(@track, format: :json) %>',map);
       track.addListener('track-loaded',function(){
+        $('#map').spin(false);
         track.plot('chartdiv')
+        $('#chartdiv').spin(false);
       });
     });
   </script>

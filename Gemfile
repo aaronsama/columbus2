@@ -45,3 +45,6 @@ gem 'jquery-datatables-rails', git: 'git://github.com/rweng/jquery-datatables-ra
 
 gem 'openlayers-rails' # I want to deprecate this
 gem 'leaflet-rails'
+
+# fancy spinner
+gem 'spinjs-rails'

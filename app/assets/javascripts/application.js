@@ -18,6 +18,7 @@
 //= require jquery.flot.resize
 //= require jquery.flot.time
 //= require jquery.flot.selection
+//= require jquery.spin
 //= require leaflet
 //= require jquery_ujs
 //= require foundation

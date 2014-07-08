@@ -24,8 +24,9 @@ class @Track extends EventTarget
       series:
         lines:
           show: true
+          width: 2
         points:
-          show: true
+          show: false
           radius: 2
         shadowSize: 0
       xaxis:

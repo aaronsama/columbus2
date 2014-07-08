@@ -111,6 +111,8 @@ GEM
       railties (~> 3.2.0)
       sass (>= 3.1.10)
       tilt (~> 1.3)
+    spinjs-rails (1.3)
+      rails (>= 3.1)
     sprockets (2.2.2)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -143,5 +145,6 @@ DEPENDENCIES
   paperclip
   rails (= 3.2.17)
   sass-rails (~> 3.2.3)
+  spinjs-rails
   sqlite3
   uglifier (>= 1.0.3)
