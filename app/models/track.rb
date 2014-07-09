@@ -8,22 +8,27 @@ class Track < ActiveRecord::Base
   do_not_validate_attachment_file_type :track
   validates_attachment :track, :presence => true
 
-  after_save :reverse_geocode
+  after_commit :reverse_geocode, on: :create
 
   def reverse_geocode
-    data = CSV::read self.track.path, headers: true
+    data = to_a
 
-    update_column(:start_location, Geocoder.address(parse_lat(data.first["LATITUDE N/S"]),parse_lon(data.first["LONGITUDE E/W"])))
-    update_column(:end_location, Geocoder.address(parse_lat(data.last["LATITUDE N/S"]),parse_lon(data.last["LONGITUDE E/W"])))
+    update_column(:start_location, Geocoder.address([data.first[:lat],data.first[:lon]]))
+    update_column(:end_location, Geocoder.address([data.last[:lat],data.last[:lon]]))
 
     cache_statistics data
   end
 
   # store all statistics about a track
   def cache_statistics data
-    [:start_date, :duration, :distance, :min_speed, :max_speed, :min_height, :max_height].each do |symbol|
-      update_column(symbol, data.send(symbol))
-    end
+    self.start_date = DateTime.parse data.first[:timestamp]
+    self.duration = DateTime.parse(data.last[:timestamp]).to_time - DateTime.parse(data.first[:timestamp]).to_time
+    calculate_distance
+    self.min_speed = data.map{|p| p[:speed]}.min
+    self.max_speed = data.map{|p| p[:speed]}.max
+    self.min_height = data.map{|p| p[:alt]}.min
+    self.max_height = data.map{|p| p[:alt]}.max
+    save
   end
 
   def to_a
@@ -38,6 +43,9 @@ class Track < ActiveRecord::Base
     end
   end
 
+  def distance
+    read_attribute(:distance) || calculate_distance
+  end
 
   # import all the files in a specific directory.
   # useful from the command line
@@ -60,6 +68,19 @@ class Track < ActiveRecord::Base
 
   def parse_lon str
     str.last == 'E' ? str.to_f : -str.to_f
+  end
+
+  def calculate_distance
+    tot = 0
+    points = to_a
+    points.inject(points.first) do |prev,current|
+      if prev != current
+        tot += Geocoder::Calculations.distance_between([prev[:lat],prev[:lon]], [current[:lat],current[:lon]], :units => :km)
+      end
+      current
+    end
+    update_attribute(:distance,tot)
+    tot
   end
 
 end
