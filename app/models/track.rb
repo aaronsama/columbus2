@@ -10,14 +10,14 @@ class Track < ActiveRecord::Base
 
   after_commit :reverse_geocode, on: :create
 
-  json_serialize :points
+  json_serialize :points, gzip: true
 
   def points(cache=true)
     if self.read_attribute(:points).blank? || !cache
       self.points = to_a
       save
     end
-    JSON.parse self.read_attribute(:points)
+    JSON.parse Zlib::Inflate.inflate(read_attribute(:points))
   end
 
   def reverse_geocode

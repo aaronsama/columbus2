@@ -17,7 +17,7 @@ class TracksController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json { render json: @track[:points] } # we get it raw from the db since it's already JSON serialized
+      format.json { render json: @track.points } # we get it raw from the db since it's already JSON serialized
     end
   end
 

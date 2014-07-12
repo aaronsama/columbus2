@@ -47,17 +47,3 @@
   <%= link_to 'New Track', new_track_path %>
 </div>
 </div>
-
-<%= content_for(:scripts) do %>
-<script type="text/javascript">
-$(document).ready(function() {
-  $('a.reverse-geocode').on('click',function(){
-    $(this).parent('tr').spin();
-    $(this).parent('tr').find('a').css('pointer-events','none');
-  }).on('ajax:success ajax:error', function(){
-    $(this).parent('tr').spin(false);
-    $(this).parent('tr').find('a').css('pointer-events','all');
-  });
-});
-</script>
-<% end %>
