@@ -48,3 +48,6 @@ gem 'leaflet-rails'
 
 # fancy spinner
 gem 'spinjs-rails'
+
+# faster serialization for track points
+gem 'better_serialization', git: 'git://github.com/crystalcommerce/better_serialization.git'

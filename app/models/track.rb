@@ -10,37 +10,35 @@ class Track < ActiveRecord::Base
 
   after_commit :reverse_geocode, on: :create
 
-  def reverse_geocode
-    data = to_a
+  json_serialize :points
 
-    update_column(:start_location, Geocoder.address([data.first[:lat],data.first[:lon]]))
-    update_column(:end_location, Geocoder.address([data.last[:lat],data.last[:lon]]))
+  def points(cache=true)
+    if self.read_attribute(:points).blank? || !cache
+      self.points = to_a
+      save
+    end
+    JSON.parse self.read_attribute(:points)
+  end
+
+  def reverse_geocode
+    data = points # so that we don't have to parse n times
+
+    update_column(:start_location, Geocoder.address([data.first["lat"],data.first["lon"]]))
+    update_column(:end_location, Geocoder.address([data.last["lat"],data.last["lon"]]))
 
     cache_statistics data
   end
 
   # store all statistics about a track
   def cache_statistics data
-    self.start_date = DateTime.parse data.first[:timestamp]
-    self.duration = DateTime.parse(data.last[:timestamp]).to_time - DateTime.parse(data.first[:timestamp]).to_time
+    self.start_date = DateTime.parse data.first["timestamp"]
+    self.duration = DateTime.parse(data.last["timestamp"]).to_time - DateTime.parse(data.first["timestamp"]).to_time
     calculate_distance
-    self.min_speed = data.map{|p| p[:speed]}.min
-    self.max_speed = data.map{|p| p[:speed]}.max
-    self.min_height = data.map{|p| p[:alt]}.min
-    self.max_height = data.map{|p| p[:alt]}.max
+    self.min_speed = data.map{|p| p["speed"]}.min
+    self.max_speed = data.map{|p| p["speed"]}.max
+    self.min_height = data.map{|p| p["alt"]}.min
+    self.max_height = data.map{|p| p["alt"]}.max
     save
-  end
-
-  def to_a
-    data = CSV::read self.track.path, headers: true
-    data.map do |p|
-      ts = "20#{p['DATE'].scan(/../).join('-')}T#{p['TIME'].scan(/../).join(':')}"
-      lat = parse_lat p["LATITUDE N/S"]
-      lon = parse_lon p["LONGITUDE E/W"]
-      speed = p["SPEED"].to_i
-      alt = p["HEIGHT"].to_i
-      { timestamp: ts, lat: lat, lon: lon, speed: speed, alt: alt }
-    end
   end
 
   def distance
@@ -70,12 +68,23 @@ class Track < ActiveRecord::Base
     str.last == 'E' ? str.to_f : -str.to_f
   end
 
+  def to_a
+    data = CSV::read self.track.path, headers: true
+    data.map do |p|
+      ts = "20#{p['DATE'].scan(/../).join('-')}T#{p['TIME'].scan(/../).join(':')}"
+      lat = parse_lat p["LATITUDE N/S"]
+      lon = parse_lon p["LONGITUDE E/W"]
+      speed = p["SPEED"].to_i
+      alt = p["HEIGHT"].to_i
+      { timestamp: ts, lat: lat, lon: lon, speed: speed, alt: alt }
+    end
+  end
+
   def calculate_distance
     tot = 0
-    points = to_a
     points.inject(points.first) do |prev,current|
       if prev != current
-        tot += Geocoder::Calculations.distance_between([prev[:lat],prev[:lon]], [current[:lat],current[:lon]], :units => :km)
+        tot += Geocoder::Calculations.distance_between([prev["lat"],prev["lon"]], [current["lat"],current["lon"]], :units => :km)
       end
       current
     end

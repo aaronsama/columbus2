@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140613204317) do
+ActiveRecord::Schema.define(:version => 20140712134439) do
 
   create_table "tracks", :force => true do |t|
     t.string   "title"
@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(:version => 20140613204317) do
     t.integer  "max_speed"
     t.integer  "min_height"
     t.integer  "max_height"
+    t.text     "points"
   end
 
 end

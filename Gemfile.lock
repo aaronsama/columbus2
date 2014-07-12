@@ -1,4 +1,11 @@
 GIT
+  remote: git://github.com/crystalcommerce/better_serialization.git
+  revision: b44f4b455183322ea63bdfb9ad02f07fe900e2c6
+  specs:
+    better_serialization (0.3.0)
+      activerecord (~> 3.0)
+
+GIT
   remote: git://github.com/rweng/jquery-datatables-rails.git
   revision: d637e0967dc66e9824345009ad74fbfdb1e4349f
   specs:
@@ -131,6 +138,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  better_serialization!
   coffee-rails (~> 3.2.1)
   flot-rails
   foundation-icons-sass-rails

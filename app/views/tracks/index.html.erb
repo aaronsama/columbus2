@@ -19,7 +19,7 @@
     </thead>
     <tbody>
       <% @tracks.each do |track| %>
-        <tr>
+        <tr id='track-<%= track.id %>'>
           <td><%= track.start_date %></td>
           <td><%= format_duration track.duration %></td>
           <td><%= track.start_location %></td>
@@ -33,7 +33,7 @@
 
             <%= link_to zurb_icon('Show'), track %>
             <%= link_to zurb_icon('Edit'), edit_track_path(track) %>
-            <%= link_to zurb_icon('fi-compass', 'Reverse Geocode'), reverse_geocode_url(track) %>
+            <%= link_to zurb_icon('fi-compass', 'Reverse Geocode'), reverse_geocode_url(track), remote: true, class: 'reverse-geocode' %>
             <%= link_to zurb_icon('Destroy'), track, method: :delete, data: { confirm: 'Are you sure?' } %>
 
           </td>
@@ -47,3 +47,17 @@
   <%= link_to 'New Track', new_track_path %>
 </div>
 </div>
+
+<%= content_for(:scripts) do %>
+<script type="text/javascript">
+$(document).ready(function() {
+  $('a.reverse-geocode').on('click',function(){
+    $(this).parent('tr').spin();
+    $(this).parent('tr').find('a').css('pointer-events','none');
+  }).on('ajax:success ajax:error', function(){
+    $(this).parent('tr').spin(false);
+    $(this).parent('tr').find('a').css('pointer-events','all');
+  });
+});
+</script>
+<% end %>

@@ -1,5 +1,3 @@
-require 'v900track/v900track'
-
 class TracksController < ApplicationController
   # GET /tracks
   # GET /tracks.json
@@ -19,7 +17,7 @@ class TracksController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json { render json: @track.to_a }
+      format.json { render json: @track[:points] } # we get it raw from the db since it's already JSON serialized
     end
   end
 
